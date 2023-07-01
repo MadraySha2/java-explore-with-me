@@ -1,6 +1,6 @@
-package server.model;
+package ru.practicum.server.model;
 
-import dto.HitDto;
+import ru.practicum.dto.HitDto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

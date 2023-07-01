@@ -1,12 +1,12 @@
-package server.controller;
+package ru.practicum.server.controller;
 
-import dto.HitDto;
+import ru.practicum.dto.HitDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.model.OutStats;
-import server.service.StatsService;
+import ru.practicum.server.service.StatsService;
+import ru.practicum.server.model.OutStats;
 
 import java.net.URI;
 import java.time.LocalDateTime;

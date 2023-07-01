@@ -1,4 +1,4 @@
-package stat.server.exeption;
+package ru.practicum.server.exeption;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package server.exeption;
+package ru.practicum.server.exeption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public stat.server.exeption.ErrorResponse handleWrongState(final NotSupportedException e) {
-        return new stat.server.exeption.ErrorResponse(e.getMessage(), e.getMessage());
+    public ErrorResponse handleWrongState(final NotSupportedException e) {
+        return new ErrorResponse(e.getMessage(), e.getMessage());
     }
 }

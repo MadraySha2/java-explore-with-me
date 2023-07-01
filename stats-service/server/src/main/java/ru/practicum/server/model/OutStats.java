@@ -1,4 +1,4 @@
-package dto;
+package ru.practicum.server.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HitDto {
+public class OutStats {
     private String app;
+
     private String uri;
-    private String ip;
-    private String timestamp;
+
+    private Long hits;
+
 
 }

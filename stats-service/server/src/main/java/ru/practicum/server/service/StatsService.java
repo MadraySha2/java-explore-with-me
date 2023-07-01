@@ -1,17 +1,17 @@
-package server.service;
+package ru.practicum.server.service;
 
-import dto.HitDto;
+import ru.practicum.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import server.exeption.NotSupportedException;
-import server.model.Hit;
-import server.model.OutStats;
-import server.repository.StatsRepository;
+import ru.practicum.server.repository.StatsRepository;
+import ru.practicum.server.exeption.NotSupportedException;
+import ru.practicum.server.model.Hit;
+import ru.practicum.server.model.OutStats;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static server.model.HitMapper.fromDto;
+import static ru.practicum.server.model.HitMapper.fromDto;
 
 @Service
 @RequiredArgsConstructor
