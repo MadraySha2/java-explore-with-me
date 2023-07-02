@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class StatController {
     private final StatsService service;
 
