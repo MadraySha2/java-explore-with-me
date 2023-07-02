@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.server.repository.StatsRepository;
 import ru.practicum.server.exeption.NotSupportedException;
 import ru.practicum.server.model.Hit;
-import ru.practicum.server.model.OutStats;
+import ru.practicum.dto.OutStats;
 
 import java.time.LocalDateTime;
 import java.util.List;

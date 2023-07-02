@@ -1,15 +1,19 @@
-package ru.practicum.server.model;
+package ru.practicum.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class OutStats {
+    public OutStats(String app, String uri, Long hits) {
+        this.app = app;
+        this.uri = uri;
+        this.hits = hits;
+    }
+
     private String app;
 
     private String uri;
