@@ -5,7 +5,7 @@ services:
     image: stats_service_image
     container_name: stats-service
     depends_on:
-      - statsdb
+      - stats-db
     ports:
       - "9090:9090"
     environment:
