@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Service
 public class StatClient extends BaseClient {
+    @Autowired
     public StatClient(@Value("${future-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
