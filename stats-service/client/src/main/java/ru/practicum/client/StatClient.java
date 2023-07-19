@@ -14,7 +14,6 @@ import ru.practicum.dto.HitDto;
 import java.util.List;
 
 @Service
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class StatClient extends BaseClient {
     @Autowired
     public StatClient(RestTemplateBuilder builder) {
