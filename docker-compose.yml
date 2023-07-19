@@ -35,6 +35,7 @@ services:
       - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/maindb
+      - STAT_SERVER_URL=http://stats-server:9090
 
   main-db:
     image: postgres:14-alpine

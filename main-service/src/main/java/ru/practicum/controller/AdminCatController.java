@@ -15,7 +15,6 @@ import javax.validation.Valid;
 @RequestMapping(path = "/admin/categories")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class AdminCatController {
     private final CategoryService categoryService;
 

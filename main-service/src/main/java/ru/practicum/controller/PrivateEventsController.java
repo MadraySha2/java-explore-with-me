@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/events")
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 @Validated
 public class PrivateEventsController {
     private final EventService eventService;

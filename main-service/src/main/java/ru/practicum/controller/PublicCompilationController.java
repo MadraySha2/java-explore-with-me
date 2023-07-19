@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/compilations")
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class PublicCompilationController {
     private final CompilationService compilationService;
 

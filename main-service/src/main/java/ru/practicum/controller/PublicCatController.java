@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/categories")
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class PublicCatController {
     private final CategoryService categoryService;
 

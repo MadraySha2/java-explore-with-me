@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/admin/users")
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class AdminUserController {
     private final UserService userService;
 

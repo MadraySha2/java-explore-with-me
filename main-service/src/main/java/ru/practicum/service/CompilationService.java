@@ -14,6 +14,7 @@ import ru.practicum.model.Event;
 import ru.practicum.repository.CompilationRepository;
 import ru.practicum.repository.EventRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,6 @@ public class CompilationService {
     private final CompilationRepository repository;
     private final EventRepository eventRepository;
     private final EventService eventService;
-
 
     public CompilationDto addCompilation(CompilationEntryDto entryDto) {
         checkTitle(entryDto.getTitle());

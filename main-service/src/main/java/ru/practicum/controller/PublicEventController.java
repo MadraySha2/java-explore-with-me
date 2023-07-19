@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class PublicEventController {
     private final EventService eventService;
 

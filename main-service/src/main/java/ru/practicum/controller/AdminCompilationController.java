@@ -15,7 +15,6 @@ import javax.validation.Valid;
 @RequestMapping("/admin/compilations")
 @Validated
 @RequiredArgsConstructor
-@CrossOrigin(maxAge = 3600, origins = "*", allowedHeaders = "*")
 public class AdminCompilationController {
     private final CompilationService compilationService;
 
