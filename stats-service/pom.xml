@@ -14,7 +14,7 @@
     <modules>
         <module>dto</module>
         <module>server</module>
-        <module>client</module>
+        <module>client/src</module>
     </modules>
 
     <properties>
@@ -23,10 +23,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-    </dependencies>
 </project>
