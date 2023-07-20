@@ -129,7 +129,7 @@ public class EventService {
         if (event == null) {
             throw new NotFoundException("Event not found!");
         }
-        sendHit(request, List.of(eventId));
+        sendHit(request);
         setViews(event);
         setConfRequests(event);
         return toDto(event);
@@ -144,7 +144,7 @@ public class EventService {
                                                         Sort sort,
                                                         Integer from, Integer size, HttpServletRequest request) {
         checkDate(start, end);
-        List<EventShortDto> events;
+        List<Event> events;
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Event> query = builder.createQuery(Event.class);
         Root<Event> root = query.from(Event.class);
@@ -179,23 +179,6 @@ public class EventService {
             }
 
         }
-        if (onlyAvailable) {
-            events = manager.createQuery(query.select(root)
-                            .where(predicate).orderBy(order))
-                    .setFirstResult(from)
-                    .setMaxResults(size)
-                    .getResultList()
-                    .stream()
-                    .map(this::setConfRequests)
-                    .filter(event -> event.getConfirmedRequests() < event.getParticipantLimit())
-                    .map(this::setViews)
-                    .map(EventMapper::toEventShortDto)
-                    .collect(Collectors.toList());
-            List<Long> ids = events.stream().map(EventShortDto::getId).collect(Collectors.toList());
-            sendHit(request, ids);
-            return events;
-        }
-
         events = manager.createQuery(query.select(root)
                         .where(predicate).orderBy(order))
                 .setFirstResult(from)
@@ -203,12 +186,22 @@ public class EventService {
                 .getResultList()
                 .stream()
                 .map(this::setConfRequests)
+                .collect(Collectors.toList());
+        List<Long> ids = events.stream().map(Event::getId).collect(Collectors.toList());
+        sendHits(request, ids);
+        System.out.println(ids);
+        if (onlyAvailable) {
+            return events.stream()
+                    .filter(event -> event.getConfirmedRequests() < event.getParticipantLimit())
+                    .map(this::setViews)
+                    .map(EventMapper::toEventShortDto)
+                    .collect(Collectors.toList());
+        }
+
+        return events.stream()
                 .map(this::setViews)
                 .map(EventMapper::toEventShortDto)
                 .collect(Collectors.toList());
-        List<Long> ids = events.stream().map(EventShortDto::getId).collect(Collectors.toList());
-        sendHit(request, ids);
-        return events;
     }
 
     public List<EventDto> adminGetEventsByFilters(List<Long> ids, List<EventState> states,
@@ -221,10 +214,10 @@ public class EventService {
         Root<Event> root = query.from(Event.class);
         Predicate predicate = builder.conjunction();
         Order order = builder.desc(root);
-        if (ids != null && ids.isEmpty()) {
+        if (ids != null && !ids.isEmpty()) {
             predicate = builder.and(predicate, root.get("initiator").get("id").in(ids));
         }
-        if (states != null && states.isEmpty()) {
+        if (states != null && !states.isEmpty()) {
             predicate = builder.and(predicate, root.get("state").in(states));
         }
         if (categories != null) {
@@ -291,7 +284,7 @@ public class EventService {
         return event;
     }
 
-    private void sendHit(HttpServletRequest request, List<Long> ids) {
+    private void sendHits(HttpServletRequest request, List<Long> ids) {
         for (Long eventId : ids) {
             client.saveHit(HitDto.builder()
                     .app("main-service")
@@ -299,9 +292,24 @@ public class EventService {
                     .uri("/events/" + eventId)
                     .timestamp(LocalDateTime.now().format(formatter))
                     .build());
-
         }
+        client.saveHit(HitDto.builder()
+                .app("main-service")
+                .ip(request.getRemoteAddr())
+                .uri(request.getRequestURI())
+                .timestamp(LocalDateTime.now().format(formatter))
+                .build());
     }
+
+    private void sendHit(HttpServletRequest request) {
+        client.saveHit(HitDto.builder()
+                .app("main-service")
+                .ip(request.getRemoteAddr())
+                .uri(request.getRequestURI())
+                .timestamp(LocalDateTime.now().format(formatter))
+                .build());
+    }
+
 
     protected Event setViews(Event event) {
         try {
