@@ -3,7 +3,7 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.dto.CatEntryDto;
+import ru.practicum.dto.CategoryEntryDto;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.DuplicateException;
 import ru.practicum.exception.NotFoundException;
@@ -19,17 +19,17 @@ public class CategoryService {
     private final CategoryRepository repository;
     private final EventRepository events;
 
-    public Category addCategory(CatEntryDto entryDto) throws DuplicateException {
-        validName(entryDto.getName());
+    public Category addCategory(CategoryEntryDto entryDto) throws DuplicateException {
+        validateName(entryDto.getName());
         return repository.save(Category.builder().name(entryDto.getName()).build());
     }
 
-    public Category updateCategory(Long catId, CatEntryDto entryDto) throws DuplicateException {
+    public Category updateCategory(Long catId, CategoryEntryDto entryDto) throws DuplicateException {
         Category category = repository.findById(catId).orElseThrow(() -> new NotFoundException("Category not found!"));
         if (category.getName().equals(entryDto.getName())) {
             return category;
         }
-        validName(entryDto.getName());
+        validateName(entryDto.getName());
         category.setName(entryDto.getName());
         return repository.save(category);
     }
@@ -51,7 +51,7 @@ public class CategoryService {
         }
     }
 
-    private void validName(String name) throws DuplicateException {
+    private void validateName(String name) throws DuplicateException {
         if (repository.existsByName(name)) {
             throw new DuplicateException("Such cat. already exists!");
         }

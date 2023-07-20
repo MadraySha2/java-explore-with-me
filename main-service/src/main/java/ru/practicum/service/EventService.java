@@ -43,7 +43,7 @@ public class EventService {
     private final RequestRepository requests;
     private final EntityManager manager;
     private final StatClient client;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
     public EventDto addEvent(Long userId, EventEntryDto entryDto) {

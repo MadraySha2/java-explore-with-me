@@ -7,6 +7,8 @@ import ru.practicum.model.Event;
 import ru.practicum.model.Location;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.practicum.mapper.UserMapper.toShortDto;
 
@@ -60,5 +62,8 @@ public class EventMapper {
                 .build();
     }
 
+    public static List<EventShortDto> toEventShortDto(List<Event> events) {
+        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
+    }
 
 }
