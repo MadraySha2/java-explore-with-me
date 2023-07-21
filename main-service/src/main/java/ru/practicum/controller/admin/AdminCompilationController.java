@@ -11,7 +11,6 @@ import ru.practicum.dto.CompilationUpdDto;
 import ru.practicum.service.CompilationService;
 
 import javax.validation.Valid;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/admin/compilations")

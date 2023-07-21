@@ -1,6 +1,7 @@
 package ru.practicum.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -10,33 +11,32 @@ import ru.practicum.model.Category;
 import ru.practicum.service.CategoryService;
 
 import javax.validation.Valid;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(path = "/admin/categories")
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class AdminCategoryController {
     private final CategoryService categoryService;
-    private final Logger logger;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Category createCategory(@Valid @RequestBody CategoryEntryDto categoryEntryDto) throws DuplicateException {
-        logger.info("Добавление категории");
+        log.info("Добавление категории");
         return categoryService.addCategory(categoryEntryDto);
     }
 
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long catId) {
-        logger.info("Удаление категории с айди: " + catId);
+        log.info("Удаление категории с айди: " + catId);
         categoryService.deleteCategory(catId);
     }
 
     @PatchMapping("/{catId}")
     public Category updateCategory(@PathVariable Long catId, @Valid @RequestBody CategoryEntryDto categoryEntryDto) throws DuplicateException {
-        logger.info("Обновление категории с айди: " + catId);
+        log.info("Обновление категории с айди: " + catId);
         return categoryService.updateCategory(catId, categoryEntryDto);
     }
 }
