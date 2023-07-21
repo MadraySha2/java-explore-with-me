@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class StatServiceApplication {
     public static void main(String[] args) {
         System.setProperty("server.port", "9090");
-        System.setProperty("stats-server.url", "http://stats-server:9090");
+        System.setProperty("stat-server.url", "http://stats-server:9090");
         SpringApplication.run(StatServiceApplication.class, args);
     }
 }
