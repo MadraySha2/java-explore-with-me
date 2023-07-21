@@ -15,7 +15,11 @@ CREATE TABLE IF NOT EXISTS compilation (
 	pinned bool NULL,
 	title varchar(50) NULL
 );
-
+CREATE TABLE IF NOT EXISTS users (
+	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
+	email varchar(255) NULL,
+	name varchar(255) NULL
+);
 CREATE TABLE IF NOT EXISTS event (
 	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
 	annotation varchar(2000) NULL,
@@ -48,10 +52,4 @@ CREATE TABLE IF NOT EXISTS request (
 	status varchar(255) NULL,
 	event_id int8 NULL REFERENCES event (id),
 	requester_id int8 NULL REFERENCES users (id)
-);
-
-CREATE TABLE IF NOT EXISTS users (
-	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
-	email varchar(255) NULL,
-	name varchar(255) NULL
 );
