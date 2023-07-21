@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS event CASCADE;
+DROP TABLE IF EXISTS compilation CASCADE;
+DROP TABLE IF EXISTS compilation_events CASCADE;
+DROP TABLE If EXISTS request CASCADE;
+
 CREATE TABLE IF NOT EXISTS categories (
 	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
 	name varchar(255) NULL
@@ -8,11 +15,7 @@ CREATE TABLE IF NOT EXISTS compilation (
 	pinned bool NULL,
 	title varchar(50) NULL
 );
-CREATE TABLE IF NOT EXISTS compilation_events (
-	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
-	compilation_id int8 REFERENCES compilation(id),
-	event_id int8 REFERENCES event(id)
-);
+
 CREATE TABLE IF NOT EXISTS event (
 	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
 	annotation varchar(2000) NULL,
@@ -31,6 +34,12 @@ CREATE TABLE IF NOT EXISTS event (
 	views int8 NULL,
 	category_id int8 NULL REFERENCES categories (id),
 	initiator_id int8 NULL REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS compilation_events (
+	id int8 GENERATED ALWAYS AS IDENTITY PRIMARY KEY UNIQUE,
+	compilation_id int8 NULL REFERENCES compilation(id),
+	event_id int8 NULL REFERENCES event(id)
 );
 
 CREATE TABLE IF NOT EXISTS request (
