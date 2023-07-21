@@ -113,12 +113,12 @@ public class EventService {
         if (!users.existsById(userId)) {
             throw new NotFoundException("User not found!");
         }
-        return repository.findAllByInitiator_id(userId, pageable).stream().map(this::setViews).map(this::setConfRequests)
+        return repository.findAllByInitiatorId(userId, pageable).stream().map(this::setViews).map(this::setConfRequests)
                 .map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 
     public EventDto getEventByInitiatorAndId(Long userId, Long eventId) {
-        Event event = repository.findByIdAndInitiator_id(eventId, userId);
+        Event event = repository.findByIdAndInitiatorId(eventId, userId);
         if (event == null) {
             throw new NotFoundException("Event not found!");
         }
@@ -283,7 +283,7 @@ public class EventService {
     }
 
     protected Event setConfRequests(Event event) {
-        event.setConfirmedRequests(requests.countByEvent_idAndStatus(event.getId(), RequestStatus.CONFIRMED));
+        event.setConfirmedRequests(requests.countByEventIdAndStatus(event.getId(), RequestStatus.CONFIRMED));
         return event;
     }
 

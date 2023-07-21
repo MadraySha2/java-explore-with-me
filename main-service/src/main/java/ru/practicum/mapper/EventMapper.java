@@ -7,6 +7,7 @@ import ru.practicum.model.Event;
 import ru.practicum.model.Location;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,7 @@ public class EventMapper {
     }
 
     public static List<EventShortDto> toEventShortDto(List<Event> events) {
-        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
+        return events != null ? events.stream()
+                .map(EventMapper::toEventShortDto).collect(Collectors.toList()) : new ArrayList<>();
     }
 }

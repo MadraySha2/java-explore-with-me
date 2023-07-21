@@ -43,7 +43,7 @@ public class CategoryService {
     }
 
     public void deleteCategory(Long catId) {
-        if (events.existsByCategory_id(catId)) {
+        if (events.existsByCategoryId(catId)) {
             throw new ConflictException("U cant delete it!");
         }
         if (repository.existsById(catId)) {

@@ -8,11 +8,11 @@ import ru.practicum.model.EventState;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    List<Event> findAllByInitiator_id(Long userId, Pageable pageable);
+    List<Event> findAllByInitiatorId(Long userId, Pageable pageable);
 
     Event findByIdAndState(Long eventId, EventState state);
 
-    Event findByIdAndInitiator_id(Long eventId, Long userId);
+    Event findByIdAndInitiatorId(Long eventId, Long userId);
 
-    Boolean existsByCategory_id(Long catId);
+    Boolean existsByCategoryId(Long catId);
 }

@@ -49,7 +49,7 @@ public class RequestService {
         checkUser(userId);
         Event event = events.findById(eventId).orElseThrow(() -> new NotFoundException("Event not found!"));
         Long max = event.getParticipantLimit();
-        Long current = repository.countByEvent_idAndStatus(eventId, RequestStatus.CONFIRMED);
+        Long current = repository.countByEventIdAndStatus(eventId, RequestStatus.CONFIRMED);
         if (max.longValue() == current.longValue()) {
             throw new ConflictException("Limit already reached!");
         }
@@ -86,14 +86,14 @@ public class RequestService {
 
     public List<ParticipationRequestDto> getRequestOwnEvents(Long eventId, Long userId) {
         checkUser(userId);
-        return repository.findByEvent_idAndEvent_Initiator_id(eventId, userId).stream()
+        return repository.findByEventIdAndEventInitiatorId(eventId, userId).stream()
                 .map(RequestMapper::toRequestDto)
                 .collect(Collectors.toList());
     }
 
     public List<ParticipationRequestDto> getOwnRequests(Long userId) {
         checkUser(userId);
-        return repository.findByRequester_id(userId).stream()
+        return repository.findByRequesterId(userId).stream()
                 .map(RequestMapper::toRequestDto).collect(Collectors.toList());
     }
 
@@ -116,9 +116,9 @@ public class RequestService {
     private void checkRequest(Long userId, Event event) {
         if (event.getParticipantLimit() != 0 && (userId.longValue() == event.getInitiator().getId().longValue()
                 || !event.getState().equals(EventState.PUBLISHED)
-                || repository.existsByEvent_idAndRequester_id(event.getId(), userId)
-                || repository.countByEvent_idAndStatus(event.getId(), RequestStatus.CONFIRMED) >= event.getParticipantLimit())) {
-            System.out.println(repository.countByEvent_idAndStatus(event.getId(), RequestStatus.CONFIRMED));
+                || repository.existsByEventIdAndRequesterId(event.getId(), userId)
+                || repository.countByEventIdAndStatus(event.getId(), RequestStatus.CONFIRMED) >= event.getParticipantLimit())) {
+            System.out.println(repository.countByEventIdAndStatus(event.getId(), RequestStatus.CONFIRMED));
             throw new ConflictException("Request isnt valid!");
         }
     }
