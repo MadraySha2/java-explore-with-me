@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-public class OutStats {
-    public OutStats(String app, String uri, Long hits) {
+public class OutStatsDto {
+    public OutStatsDto(String app, String uri, Long hits) {
         this.app = app;
         this.uri = uri;
         this.hits = hits;

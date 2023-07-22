@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.server.repository.StatsRepository;
 import ru.practicum.server.exeption.NotSupportedException;
 import ru.practicum.server.model.Hit;
-import ru.practicum.dto.OutStats;
+import ru.practicum.dto.OutStatsDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +24,7 @@ public class StatsService {
         repository.save(hit);
     }
 
-    public List<OutStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<OutStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         if (start.isAfter(end)) {
             throw new NotSupportedException("Date should be valid!");
         }
