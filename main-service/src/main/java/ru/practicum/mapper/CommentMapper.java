@@ -13,7 +13,7 @@ import static ru.practicum.mapper.UserMapper.toShortDto;
 public class CommentMapper {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static CommentDto toCommentDto (Comment comment){
+    public static CommentDto toCommentDto(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .created(comment.getCreated().format(formatter))
@@ -24,13 +24,14 @@ public class CommentMapper {
                 .usefulness(0L)
                 .build();
     }
-    public static Comment fromEntryComment  (CommentEntryDto comment){
+
+    public static Comment fromEntryComment(CommentEntryDto comment) {
         return Comment.builder()
                 .content(comment.getContent())
                 .build();
     }
 
-    public static CommentAdminDto toAdminDto (Comment comment){
+    public static CommentAdminDto toAdminDto(Comment comment) {
         return CommentAdminDto.builder()
                 .id(comment.getId())
                 .created(comment.getCreated().format(formatter))

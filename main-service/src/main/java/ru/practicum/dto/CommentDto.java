@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.model.Event;
-import ru.practicum.model.User;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
