@@ -37,18 +37,11 @@ public class PrivateCommentController {
         return service.updateComment(userId, commentId, comment);
     }
 
-    @GetMapping("/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
-    public CommentDto getCommentById(@PathVariable Long userId, @PathVariable Long commentId) {
-        log.info("получение коммента " + commentId + " пользователем " + userId);
-        return service.getOwnerCommentById(userId, commentId);
-    }
-
     @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByOwner(@PathVariable Long userId, @PathVariable Long commentId) {
         log.info("удаление коммента " + commentId + " пользователем " + userId);
-        service.deleteComment(userId, commentId, false);
+        service.deleteComment(userId, commentId);
     }
 
     @PatchMapping("/{commentId}/like")

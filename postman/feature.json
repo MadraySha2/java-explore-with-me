@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "e838c6e3-67a7-4528-a8cf-2e55e6c16e03",
 		"name": "feature",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "26864178"
 	},
 	"item": [
@@ -23,10 +23,12 @@
 									"    try {\r",
 									"        const user = await api.addUser(rnd.getUser());\r",
 									"        pm.collectionVariables.set(\"uid\", user.id)\r",
+									"        pm.collectionVariables.set(\"deluid\", user.id)\r",
 									"        const category = await api.addCategory(rnd.getCategory());\r",
 									"        let event = await api.addEvent(user.id, rnd.getEvent(category.id));\r",
 									"        event = await api.publishEvent(event.id);\r",
 									"        pm.collectionVariables.set(\"eid\", event.id)\r",
+									"        pm.collectionVariables.set(\"commdel\", 1)\r",
 									"    } catch(err) {\r",
 									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
 									"    }\r",
@@ -217,174 +219,6 @@
 								{
 									"key": "commentId",
 									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Получение коммента по Id",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Ответ должен содержать код статуса 400 и данные в формате json\", function () {\r",
-									"    pm.response.to.have.status(200);  \r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"});\r",
-									"\r",
-									"const target = pm.response.json();\r",
-									"\r",
-									"pm.test(\"В ответе должны быть все поля, а updated == null\", function(){\r",
-									"pm.expect(target).to.have.property('id');\r",
-									"pm.expect(target).to.have.property('created');\r",
-									"pm.expect(target).to.have.property('updated');\r",
-									"pm.expect(target).to.have.property('event');\r",
-									"pm.expect(target).to.have.property('sender');\r",
-									"pm.expect(target).to.have.property('content');\r",
-									"pm.expect(target).to.have.property('usefulness');\r",
-									"\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Данные должны быть не null\", function() {\r",
-									"    pm.expect(target.id).to.be.not.null;\r",
-									"    pm.expect(target.created).to.be.not.null;\r",
-									"    pm.expect(target.updated).to.be.not.null;\r",
-									"    pm.expect(target.event).to.be.not.null;\r",
-									"    pm.expect(target.sender).to.be.not.null;\r",
-									"    pm.expect(target.content).to.be.not.null;\r",
-									"    pm.expect(target.usefulness).to.be.not.null;\r",
-									"    pm.expect(target.content).equal(\"Проснувшись однажды утром после беспокойного сна, Грегор Замза обнаружил, что он у себя в постели превратился в страшное насекомое. Лежа на панцирнотвердой спине, он видел, стоило ему приподнять голову, свой коричневый, выпуклый, разделенный дугообразными чешуйками живот, на верхушке которого еле держалось готовое вот-вот окончательно сползти одеяло. Его многочисленные, убого тонкие по сравнению с остальным телом ножки беспомощно копошились у него перед глазами. «Что со мной случилось?» – подумал он. Это не было сном. Его комната, настоящая, разве что слишком маленькая, но обычная комната, мирно покоилась в своих четырех хорошо знакомых стенах. Над столом, где были разложены распакованные образцы сукон – Замза был коммивояжером, – висел портрет, который он недавно вырезал из иллюстрированного журнала и вставил в красивую золоченую рамку. На портрете была изображена дама в меховой шляпе и боа, она сидела очень прямо и протягивала зрителю тяжелую меховую муфту, в которой целиком исчезала ее рука. Затем взгляд Грегора устремился в окно, и пасмурная погода – слышно было, как по жести подоконника стучат капли дождя – привела его и вовсе в грустное настроение. «Хорошо бы еще немного поспать и забыть всю эту чепуху», – подумал он, но это было совершенно неосуществимо, он привык спать на правом боку, а в теперешнем своем состоянии он никак не мог принять этого положения. С какой бы силой ни поворачивался он на правый бок, он неизменно сваливался опять на спину. Закрыв глаза, чтобы не видеть своих барахтающихся ног, он проделал это добрую сотню раз и отказался от этих попыток только тогда, когда почувствовал какую-то неведомую дотоле, тупую и слабую боль в боку. «Ах ты, господи, – подумал он, – какую я выбрал хлопотную профессию! Изо дня в день в разъездах. Деловых волнений куда больше, чем на месте, в торговом доме, а кроме того, изволь терпеть тяготы дороги, думай о расписании поездов, мирись с плохим, нерегулярным питанием, завязывай со все новыми и новыми людьми недолгие\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/:userId/comment/:commentId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":userId",
-								"comment",
-								":commentId"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "{{uid}}"
-								},
-								{
-									"key": "commentId",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Получение коммента по Id Не владелец",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Ответ должен содержать код статуса 400 и данные в формате json\", function () {\r",
-									"    pm.response.to.have.status(404);  \r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/:userId/comment/:commentId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":userId",
-								"comment",
-								":commentId"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "999"
-								},
-								{
-									"key": "commentId",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Получение коммента по Id Не сущ коммент",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Ответ должен содержать код статуса 400 и данные в формате json\", function () {\r",
-									"    pm.response.to.have.status(404);  \r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/:userId/comment/:commentId",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								":userId",
-								"comment",
-								":commentId"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "{{uid}}"
-								},
-								{
-									"key": "commentId",
-									"value": "99"
 								}
 							]
 						}
@@ -1300,11 +1134,11 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "1"
+									"value": "{{deluid}}"
 								},
 								{
 									"key": "commentId",
-									"value": "1"
+									"value": "{{commdel}}"
 								}
 							]
 						}
@@ -3722,6 +3556,117 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Получение коммента по Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400 и данные в формате json\", function () {\r",
+									"    pm.response.to.have.status(200);  \r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"const target = pm.response.json();\r",
+									"\r",
+									"pm.test(\"В ответе должны быть все поля, а updated == null\", function(){\r",
+									"pm.expect(target).to.have.property('id');\r",
+									"pm.expect(target).to.have.property('created');\r",
+									"pm.expect(target).to.have.property('updated');\r",
+									"pm.expect(target).to.have.property('event');\r",
+									"pm.expect(target).to.have.property('sender');\r",
+									"pm.expect(target).to.have.property('content');\r",
+									"pm.expect(target).to.have.property('usefulness');\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Данные должны быть не null\", function() {\r",
+									"    pm.expect(target.id).to.be.not.null;\r",
+									"    pm.expect(target.created).to.be.not.null;\r",
+									"    pm.expect(target.updated).to.be.not.null;\r",
+									"    pm.expect(target.event).to.be.not.null;\r",
+									"    pm.expect(target.sender).to.be.not.null;\r",
+									"    pm.expect(target.content).to.be.not.null;\r",
+									"    pm.expect(target.usefulness).to.be.not.null;\r",
+									"    pm.expect(target.content).equal(\"Проснувшись однажды утром после беспокойного сна, Грегор Замза обнаружил, что он у себя в постели превратился в страшное насекомое. Лежа на панцирнотвердой спине, он видел, стоило ему приподнять голову, свой коричневый, выпуклый, разделенный дугообразными чешуйками живот, на верхушке которого еле держалось готовое вот-вот окончательно сползти одеяло. Его многочисленные, убого тонкие по сравнению с остальным телом ножки беспомощно копошились у него перед глазами. «Что со мной случилось?» – подумал он. Это не было сном. Его комната, настоящая, разве что слишком маленькая, но обычная комната, мирно покоилась в своих четырех хорошо знакомых стенах. Над столом, где были разложены распакованные образцы сукон – Замза был коммивояжером, – висел портрет, который он недавно вырезал из иллюстрированного журнала и вставил в красивую золоченую рамку. На портрете была изображена дама в меховой шляпе и боа, она сидела очень прямо и протягивала зрителю тяжелую меховую муфту, в которой целиком исчезала ее рука. Затем взгляд Грегора устремился в окно, и пасмурная погода – слышно было, как по жести подоконника стучат капли дождя – привела его и вовсе в грустное настроение. «Хорошо бы еще немного поспать и забыть всю эту чепуху», – подумал он, но это было совершенно неосуществимо, он привык спать на правом боку, а в теперешнем своем состоянии он никак не мог принять этого положения. С какой бы силой ни поворачивался он на правый бок, он неизменно сваливался опять на спину. Закрыв глаза, чтобы не видеть своих барахтающихся ног, он проделал это добрую сотню раз и отказался от этих попыток только тогда, когда почувствовал какую-то неведомую дотоле, тупую и слабую боль в боку. «Ах ты, господи, – подумал он, – какую я выбрал хлопотную профессию! Изо дня в день в разъездах. Деловых волнений куда больше, чем на месте, в торговом доме, а кроме того, изволь терпеть тяготы дороги, думай о расписании поездов, мирись с плохим, нерегулярным питанием, завязывай со все новыми и новыми людьми недолгие\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/comment/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение коммента по Id Не сущ коммент",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400 и данные в формате json\", function () {\r",
+									"    pm.response.to.have.status(404);  \r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/comment/:commentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "99"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -3963,6 +3908,14 @@
 		},
 		{
 			"key": "uid2",
+			"value": ""
+		},
+		{
+			"key": "deluid",
+			"value": ""
+		},
+		{
+			"key": "commdel",
 			"value": ""
 		}
 	]

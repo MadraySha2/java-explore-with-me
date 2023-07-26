@@ -49,4 +49,11 @@ public class PublicCommentController {
         log.info("Получение комментов по отправителю " + userId);
         return service.getCommentsByUser(userId, sortValue, asc, from, size);
     }
+
+    @GetMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentDto getCommentById(@PathVariable Long commentId) {
+        log.info("получение коммента " + commentId);
+        return service.getCommentById(commentId);
+    }
 }

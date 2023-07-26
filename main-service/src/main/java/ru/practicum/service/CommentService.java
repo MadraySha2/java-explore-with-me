@@ -67,23 +67,24 @@ public class CommentService {
         return setUsefulnessAdmin(toAdminDto(comment));
     }
 
-    public CommentDto getOwnerCommentById(Long userId, Long commentId) {
-        Comment comment = repository.findByIdAndSenderId(commentId, userId);
-        if (comment == null) {
-            throw new NotFoundException("Comment Not Found!");
-        }
+    public CommentDto getCommentById(Long commentId) {
+        Comment comment = repository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("Comment Not Found!"));
         return setUsefulness(toCommentDto(comment));
     }
 
-    public void deleteComment(Long userId, Long commentId, Boolean isAdmin) {
+    public void deleteCommentAdmin(Long commentId) {
         Comment comment = repository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("Comment Not Found!"));
-        if (!isAdmin) {
-            if (userId == null || comment.getSender().getId().longValue() != userId.longValue()) {
-                throw new NotAvailableException("Only sender or admin can delete it!");
-            }
-        }
+        repository.deleteById(commentId);
+    }
 
+    public void deleteComment(Long userId, Long commentId) {
+        Comment comment = repository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("Comment Not Found!"));
+        if (userId == null || comment.getSender().getId().longValue() != userId.longValue()) {
+            throw new NotAvailableException("Only sender or admin can delete it!");
+        }
         repository.deleteById(commentId);
     }
 
@@ -144,43 +145,57 @@ public class CommentService {
         throw new NotAvailableException("No such sort");
     }
 
-    public CommentDto likeComment(Long userId, Long commentId) { //мб будет не так понятно,но здесь при наличии лайка, он снимается при повторном нажатии
-        Comment comment = repository.findById(commentId)             // а если дизлайк, то поменяется на лайк
+    /* мб будет не так понятно,но здесь при наличии лайка, он снимается при повторном нажатии,
+     * а если дизлайк, то поменяется на лайк. Это нужно, чтобы не было варианта, при котором
+     * юзер ставит лайк, потом меняет на дизлайк и лайк остается и дизлайк создается -> рейтинг был +1, а стал +1-1=0
+     * в моем варианте, если юзер ставит лайк, а потом нажимает на дизлайк, то по сути, рейтинг будет -1, в общем, по формату
+     * как на youTube. => Мы можем убрать лайк, либо отзеркалить его */
+    public CommentDto likeComment(Long userId, Long commentId) {
+        Comment comment = repository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("Comment Not Found!"));
-        if (comment.getSender().getId().longValue() == userId.longValue()) {
-            throw new NotAvailableException("");
-        }
         CommentLike like = likes.findByCommentIdAndUserId(commentId, userId);
-        if (like != null && like.getIslike()) {
+        /*Соотв. тут он проверяет, если это лайк, то он его убирает*/
+        if (like != null && like.getIslike().equals(true)) {
             likes.deleteById(like.getId());
             return setUsefulness(toCommentDto(comment));
+        } /*А если дизлайк, то реверсит*/ else if (like != null && like.getIslike().equals(false)) {
+            return reverseLike(comment, like);
         }
-        if (like != null) {
-            like.setIslike(true);
-            likes.save(like);
-            return setUsefulness(toCommentDto(comment));
-        }
-        likes.save(CommentLike.builder().commentId(commentId).userId(userId).islike(true).build());
-        return setUsefulness(toCommentDto(comment));
+        return addNewLike(comment, userId);
     }
 
     public CommentDto dislikeComment(Long userId, Long commentId) {
         Comment comment = repository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("Comment Not Found!"));
+        CommentLike like = likes.findByCommentIdAndUserId(commentId, userId);
+        if (like != null && like.getIslike().equals(false)) {
+            likes.deleteById(like.getId());
+            return setUsefulness(toCommentDto(comment));
+        } else if (like != null && like.getIslike().equals(true)) {
+            return reverseLike(comment, like);
+        }
+        return addNewDislike(comment, userId);
+    }
+
+    private CommentDto reverseLike(Comment comment, CommentLike like) {
+        like.setIslike(!like.getIslike());
+        likes.save(like);
+        return setUsefulness(toCommentDto(comment));
+    }
+
+    private CommentDto addNewLike(Comment comment, Long userId) {
         if (comment.getSender().getId().longValue() == userId.longValue()) {
             throw new NotAvailableException("");
         }
-        CommentLike like = likes.findByCommentIdAndUserId(commentId, userId);
-        if (like != null && like.getIslike()) {
-            like.setIslike(false);
-            likes.save(like);
-            return setUsefulness(toCommentDto(comment));
+        likes.save(CommentLike.builder().commentId(comment.getId()).userId(userId).islike(true).build());
+        return setUsefulness(toCommentDto(comment));
+    }
+
+    private CommentDto addNewDislike(Comment comment, Long userId) {
+        if (comment.getSender().getId().longValue() == userId.longValue()) {
+            throw new NotAvailableException("");
         }
-        if (like != null) {
-            likes.deleteById(like.getId());
-            return setUsefulness(toCommentDto(comment));
-        }
-        likes.save(CommentLike.builder().commentId(commentId).userId(userId).islike(false).build());
+        likes.save(CommentLike.builder().commentId(comment.getId()).userId(userId).islike(false).build());
         return setUsefulness(toCommentDto(comment));
     }
 

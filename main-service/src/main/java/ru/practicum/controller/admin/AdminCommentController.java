@@ -25,6 +25,6 @@ public class AdminCommentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByAdmin(@PathVariable Long commentId) {
         log.info("Удаление коммента" + commentId + " Админом");
-        service.deleteComment(null, commentId, true);
+        service.deleteCommentAdmin(commentId);
     }
 }
