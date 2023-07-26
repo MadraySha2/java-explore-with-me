@@ -3611,11 +3611,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/comment/:commentId",
+							"raw": "{{baseUrl}}/comment/comment/:commentId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"comment",
 								"comment",
 								":commentId"
 							],
@@ -3650,11 +3651,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/comment/:commentId",
+							"raw": "{{baseUrl}}/comment/comment/:commentId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"comment",
 								"comment",
 								":commentId"
 							],

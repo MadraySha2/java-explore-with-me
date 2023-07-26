@@ -50,7 +50,7 @@ public class PublicCommentController {
         return service.getCommentsByUser(userId, sortValue, asc, from, size);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/comment/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto getCommentById(@PathVariable Long commentId) {
         log.info("получение коммента " + commentId);
