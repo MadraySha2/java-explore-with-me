@@ -41,7 +41,7 @@ public class PrivateCommentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByOwner(@PathVariable Long userId, @PathVariable Long commentId) {
         log.info("удаление коммента " + commentId + " пользователем " + userId);
-        service.deleteComment(userId, commentId);
+        service.deleteCommentByOwner(userId, commentId);
     }
 
     @PatchMapping("/{commentId}/like")
