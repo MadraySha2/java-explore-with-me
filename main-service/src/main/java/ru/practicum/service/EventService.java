@@ -144,7 +144,7 @@ public class EventService {
                                                         Boolean onlyAvailable,
                                                         LocalDateTime start,
                                                         LocalDateTime end,
-                                                        Sort sort,
+                                                        SortValue sortValue,
                                                         Integer from, Integer size, HttpServletRequest request) {
         checkDate(start, end);
         List<Event> events;
@@ -171,8 +171,8 @@ public class EventService {
         if (end != null) {
             predicate = builder.and(predicate, builder.lessThanOrEqualTo(root.get("eventDate").as(LocalDateTime.class), end));
         }
-        if (sort != null) {
-            switch (sort) {
+        if (sortValue != null) {
+            switch (sortValue) {
                 case EVENT_DATE:
                     order = builder.asc(root.get("eventDate"));
                     break;
